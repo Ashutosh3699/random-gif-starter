@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import  { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const API_KEY = process.env.REACT_APP_GIPHY_API_KEY;
@@ -11,7 +11,7 @@ const useTag = (tag) => {
   const randomMemeUrl = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}`;
 
 
-  const fetchData = async () =>{
+  const fetchData = useCallback( async () =>{
 
         setLoader(true);
         try {
@@ -24,12 +24,12 @@ const useTag = (tag) => {
         }
         setLoader(false);
 
-    }
+    },[tagMemeUrl,randomMemeUrl,tag]);
 
   useEffect(()=>{
 
     fetchData();
-  },[])
+  },[fetchData])
 
   return({gif,loading,fetchData});
 
